@@ -1,8 +1,13 @@
 package android.thecodingarcher.recipetest.data.model;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Recipe {
+    private static final String ID_PREFIX = "id=";
+
     public final String id;
     public final String title;
     public final String description;
@@ -17,6 +22,19 @@ public class Recipe {
         String id = null;
         String title = null;
         StringBuilder descBuilder = new StringBuilder();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+        try {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                if (line.startsWith(ID_PREFIX)) {
+                    id = line.substring(ID_PREFIX.length());
+                    continue;
+                }
+            }
+        } catch (IOException e) {
+            return null;
+        }
 
         return new Recipe(id, title, descBuilder.toString());
     }
