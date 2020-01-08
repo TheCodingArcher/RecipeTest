@@ -16,4 +16,13 @@ public class RecipeStoreTest {
         assertNotNull(store.recipes);
         assertEquals(0, store.recipes.size());
     }
+
+    @Test
+    public void countRecipes() {
+        Context context = InstrumentationRegistry.getTargetContext();
+        RecipeStore store = new RecipeStore(context, "recipes");
+        assertNotNull(store);
+        assertNotNull(store.recipes);
+        assertEquals(4, store.recipes.size());
+    }
 }
