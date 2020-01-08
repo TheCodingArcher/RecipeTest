@@ -13,7 +13,7 @@ public class Recipe {
         this.description = description;
     }
 
-    public Recipe readFromStream(InputStream stream) {
+    public static Recipe readFromStream(InputStream stream) {
         return null;
     }
 }
