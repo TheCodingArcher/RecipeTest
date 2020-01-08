@@ -14,6 +14,10 @@ public class Recipe {
     }
 
     public static Recipe readFromStream(InputStream stream) {
-        return null;
+        String id = null;
+        String title = null;
+        StringBuilder descBuilder = new StringBuilder();
+
+        return new Recipe(id, title, descBuilder.toString());
     }
 }
