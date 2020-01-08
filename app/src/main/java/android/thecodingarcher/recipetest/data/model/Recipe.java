@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 public class Recipe {
     private static final String ID_PREFIX = "id=";
+    private static final String TITLE_PREFIX = "title=";
 
     public final String id;
     public final String title;
@@ -31,6 +32,14 @@ public class Recipe {
                     id = line.substring(ID_PREFIX.length());
                     continue;
                 }
+                if (line.startsWith(TITLE_PREFIX)) {
+                    title = line.substring(TITLE_PREFIX.length());
+                    continue;
+                }
+                if (descBuilder.length() > 0) {
+                    descBuilder.append("\n");
+                }
+                descBuilder.append(line);
             }
         } catch (IOException e) {
             return null;
