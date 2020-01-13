@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.thecodingarcher.recipetest.R;
+import android.thecodingarcher.recipetest.data.local.Favorites;
 import android.thecodingarcher.recipetest.data.local.RecipeStore;
 import android.thecodingarcher.recipetest.data.local.SharedPreferenceFavorites;
 import android.thecodingarcher.recipetest.data.model.Recipe;
+import android.thecodingarcher.recipetest.injection.RecipeApplication;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,7 +34,9 @@ public class RecipeActivity extends AppCompatActivity {
             return;
         }
 
-        final SharedPreferenceFavorites favorites = new SharedPreferenceFavorites(this);
+        RecipeApplication app = (RecipeApplication) getApplication();
+        final Favorites favorites = app.getFavorites();
+//        final SharedPreferenceFavorites favorites = new SharedPreferenceFavorites(this);
         boolean favorite = favorites.get(recipe.id);
 
         titleView.setText(recipe.title);
