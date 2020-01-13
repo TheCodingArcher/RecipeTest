@@ -1,9 +1,13 @@
 package android.thecodingarcher.recipetest.ui.recipe;
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.thecodingarcher.recipetest.R;
+import android.thecodingarcher.recipetest.data.local.InMemoryFavorites;
+import android.thecodingarcher.recipetest.injection.TestRecipeApplication;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -22,6 +26,15 @@ public class RecipeActivityTest {
     public ActivityTestRule<RecipeActivity> activityRule = new ActivityTestRule<>(
             RecipeActivity.class, true, false
     );
+
+    private InMemoryFavorites favorites;
+
+    @Before
+    public void clearFavorites() {
+        TestRecipeApplication app = (TestRecipeApplication) InstrumentationRegistry.getTargetContext().getApplicationContext();
+        favorites = (InMemoryFavorites) app.getFavorites();
+        favorites.clear();
+    }
 
     @Test
     public void recipeNotFound() {
