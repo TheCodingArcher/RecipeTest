@@ -29,6 +29,7 @@ public class RecipeActivity extends AppCompatActivity {
         if (recipe == null) {
             titleView.setVisibility(View.GONE);
             descriptionView.setText(R.string.recipe_not_found);
+            return;
         }
 
         final SharedPreferenceFavorites favorites = new SharedPreferenceFavorites(this);
