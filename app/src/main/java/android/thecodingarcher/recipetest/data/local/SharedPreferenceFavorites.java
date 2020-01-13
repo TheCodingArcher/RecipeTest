@@ -3,7 +3,7 @@ package android.thecodingarcher.recipetest.data.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SharedPreferenceFavorites {
+public class SharedPreferenceFavorites implements Favorites {
 
     private final SharedPreferences pref;
 
