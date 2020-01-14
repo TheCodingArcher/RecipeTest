@@ -6,6 +6,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.thecodingarcher.recipetest.R;
 import android.thecodingarcher.recipetest.data.local.InMemoryFavorites;
 import android.thecodingarcher.recipetest.injection.TestRecipeApplication;
+import android.thecodingarcher.recipetest.test.RecipeRobot;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,13 +40,17 @@ public class RecipeActivityTest {
 
     @Test
     public void recipeNotFound() {
-        activityRule.launchActivity(null);
+        new RecipeRobot()
+                .launch(activityRule)
+                .noTitle()
+                .description(R.string.recipe_not_found);
 
+        /*activityRule.launchActivity(null);
         onView(withId(R.id.description))
                 .check(matches(withText(R.string.recipe_not_found)));
 
         onView(withId(R.id.title))
-                .check(matches(not(isDisplayed())));
+                .check(matches(not(isDisplayed())));*/
     }
 
     @Test
