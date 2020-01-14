@@ -31,7 +31,7 @@ public class RecipePresenterTest {
         Mockito.verify(view, Mockito.times(1)).showRecipeNotFoundError();
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void toggleWithoutLoad() {
         presenter.toggleFavorite();
     }
