@@ -30,7 +30,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeContract.
         // Step 2: Load recipe from store
         RecipeStore store = new RecipeStore(this, "recipes");
         String id = getIntent().getStringExtra(KEY_ID);
-        RecipePresenter presenter = new RecipePresenter(store, this);
+        RecipeApplication app = (RecipeApplication) getApplication();
+        final Favorites favorites = app.getFavorites();
+        final RecipePresenter presenter = new RecipePresenter(store, this, favorites);
         presenter.loadRecipe(id);
 //        final Recipe recipe = store.getRecipe(id);
 
@@ -41,22 +43,17 @@ public class RecipeActivity extends AppCompatActivity implements RecipeContract.
             return;
         }*/
 
-        // Step 4: If recipe is not null, show recipe
-        RecipeApplication app = (RecipeApplication) getApplication();
-        final Favorites favorites = app.getFavorites();
+        // Step 4: If recipe is not null, show recipe. This is done in Presenter.
 //        final SharedPreferenceFavorites favorites = new SharedPreferenceFavorites(this);
-        boolean favorite = favorites.get(recipe.id);
-
-        titleView.setText(recipe.title);
-        titleView.setSelected(favorite);
-        descriptionView.setText(recipe.description);
+//        boolean favorite = favorites.get(recipe.id);
 
         // Step 5: When title is clicked, toggle favorites
         titleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean result = favorites.toggle(recipe.id);
-                titleView.setSelected(result);
+                presenter.toggleFavorite();
+                /*boolean result = favorites.toggle(recipe.id);
+                titleView.setSelected(result);*/
             }
         });
     }
@@ -65,5 +62,20 @@ public class RecipeActivity extends AppCompatActivity implements RecipeContract.
     public void showRecipeNotFoundError() {
         titleView.setVisibility(View.GONE);
         descriptionView.setText(R.string.recipe_not_found);
+    }
+
+    @Override
+    public void setTitle(String title) {
+        titleView.setText(title);
+    }
+
+    @Override
+    public void setDescription(String description) {
+        descriptionView.setText(description);
+    }
+
+    @Override
+    public void setFavorite(boolean favorite) {
+        titleView.setSelected(favorite);
     }
 }
