@@ -12,9 +12,11 @@ import android.thecodingarcher.recipetest.injection.RecipeApplication;
 import android.view.View;
 import android.widget.TextView;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends AppCompatActivity implements RecipeContract.View {
 
     public static final String KEY_ID = "id";
+    private TextView titleView;
+    private TextView descriptionView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,22 +24,22 @@ public class RecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        final TextView titleView = findViewById(R.id.title);
-        TextView descriptionView = findViewById(R.id.description);
+        titleView = findViewById(R.id.title);
+        descriptionView = findViewById(R.id.description);
 
         // Step 2: Load recipe from store
         RecipeStore store = new RecipeStore(this, "recipes");
         String id = getIntent().getStringExtra(KEY_ID);
-        RecipePresenter presenter = new RecipePresenter(store);
+        RecipePresenter presenter = new RecipePresenter(store, this);
         presenter.loadRecipe(id);
 //        final Recipe recipe = store.getRecipe(id);
 
-        // Step 3: If recipe is null, show error
-        if (recipe == null) {
+        // Step 3: If recipe is null, show error. This is done in Presenter.
+        /*if (recipe == null) {
             titleView.setVisibility(View.GONE);
             descriptionView.setText(R.string.recipe_not_found);
             return;
-        }
+        }*/
 
         // Step 4: If recipe is not null, show recipe
         RecipeApplication app = (RecipeApplication) getApplication();
@@ -57,5 +59,11 @@ public class RecipeActivity extends AppCompatActivity {
                 titleView.setSelected(result);
             }
         });
+    }
+
+    @Override
+    public void showRecipeNotFoundError() {
+        titleView.setVisibility(View.GONE);
+        descriptionView.setText(R.string.recipe_not_found);
     }
 }
