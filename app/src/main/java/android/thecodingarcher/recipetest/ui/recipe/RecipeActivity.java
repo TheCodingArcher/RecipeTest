@@ -20,40 +20,22 @@ public class RecipeActivity extends AppCompatActivity implements RecipeContract.
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        // Step 1: Set up the UI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
         titleView = findViewById(R.id.title);
         descriptionView = findViewById(R.id.description);
 
-        // Step 2: Load recipe from store
         RecipeStore store = new RecipeStore(this, "recipes");
         String id = getIntent().getStringExtra(KEY_ID);
         RecipeApplication app = (RecipeApplication) getApplication();
         final Favorites favorites = app.getFavorites();
         final RecipePresenter presenter = new RecipePresenter(store, this, favorites);
         presenter.loadRecipe(id);
-//        final Recipe recipe = store.getRecipe(id);
-
-        // Step 3: If recipe is null, show error. This is done in Presenter.
-        /*if (recipe == null) {
-            titleView.setVisibility(View.GONE);
-            descriptionView.setText(R.string.recipe_not_found);
-            return;
-        }*/
-
-        // Step 4: If recipe is not null, show recipe. This is done in Presenter.
-//        final SharedPreferenceFavorites favorites = new SharedPreferenceFavorites(this);
-//        boolean favorite = favorites.get(recipe.id);
-
-        // Step 5: When title is clicked, toggle favorites
         titleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.toggleFavorite();
-                /*boolean result = favorites.toggle(recipe.id);
-                titleView.setSelected(result);*/
             }
         });
     }

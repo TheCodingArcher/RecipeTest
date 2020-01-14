@@ -1,10 +1,8 @@
 package android.thecodingarcher.recipetest.ui.recipe;
 
-import android.thecodingarcher.recipetest.R;
 import android.thecodingarcher.recipetest.data.local.Favorites;
 import android.thecodingarcher.recipetest.data.local.RecipeStore;
 import android.thecodingarcher.recipetest.data.model.Recipe;
-import android.view.View;
 
 public class RecipePresenter implements RecipeContract.Listener {
 
