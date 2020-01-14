@@ -23,20 +23,13 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class RecipeActivityTest {
+
     private static final String CARROT_ID = "creamed_carrots";
+
     @Rule
     public ActivityTestRule<RecipeActivity> activityRule = new ActivityTestRule<>(
             RecipeActivity.class, true, false
     );
-
-    private InMemoryFavorites favorites;
-
-    @Before
-    public void clearFavorites() {
-        TestRecipeApplication app = (TestRecipeApplication) InstrumentationRegistry.getTargetContext().getApplicationContext();
-        favorites = (InMemoryFavorites) app.getFavorites();
-        favorites.clear();
-    }
 
     @Test
     public void recipeNotFound() {
@@ -66,12 +59,16 @@ public class RecipeActivityTest {
 
     @Test
     public void alreadyFavorite() {
-        favorites.put(CARROT_ID, true);
+        new RecipeRobot()
+                .setFavorite(CARROT_ID)
+                .launch(activityRule, CARROT_ID)
+                .isFavorite();
 
+        /*favorites.put(CARROT_ID, true);
         launchRecipe(CARROT_ID);
 
         onView(withId(R.id.title))
-                .check(matches(isSelected()));
+                .check(matches(isSelected()));*/
     }
 
     private void launchRecipe(String id) {
