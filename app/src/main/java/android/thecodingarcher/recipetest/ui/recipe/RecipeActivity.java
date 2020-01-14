@@ -28,7 +28,9 @@ public class RecipeActivity extends AppCompatActivity {
         // Step 2: Load recipe from store
         RecipeStore store = new RecipeStore(this, "recipes");
         String id = getIntent().getStringExtra(KEY_ID);
-        final Recipe recipe = store.getRecipe(id);
+        RecipePresenter presenter = new RecipePresenter(store);
+        presenter.loadRecipe(id);
+//        final Recipe recipe = store.getRecipe(id);
 
         // Step 3: If recipe is null, show error
         if (recipe == null) {
