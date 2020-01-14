@@ -4,6 +4,7 @@ import android.thecodingarcher.recipetest.data.local.Favorites;
 import android.thecodingarcher.recipetest.data.local.RecipeStore;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
@@ -21,5 +22,12 @@ public class RecipePresenterTest {
         favorites = Mockito.mock(Favorites.class);
         view = Mockito.mock(RecipeContract.View.class);
         presenter = new RecipePresenter(store, view, favorites);
+    }
+
+    @Test
+    public void recipeNotFound() {
+        Mockito.when(store.getRecipe(Mockito.anyString())).thenReturn(null);
+        presenter.loadRecipe("no_such_recipe");
+        Mockito.verify(view, Mockito.times(1)).showRecipeNotFoundError();
     }
 }
