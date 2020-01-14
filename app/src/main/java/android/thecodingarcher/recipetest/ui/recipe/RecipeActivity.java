@@ -18,22 +18,26 @@ public class RecipeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        // Step 1: Set up the UI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
         final TextView titleView = findViewById(R.id.title);
         TextView descriptionView = findViewById(R.id.description);
 
+        // Step 2: Load recipe from store
         RecipeStore store = new RecipeStore(this, "recipes");
         String id = getIntent().getStringExtra(KEY_ID);
         final Recipe recipe = store.getRecipe(id);
 
+        // Step 3: If recipe is null, show error
         if (recipe == null) {
             titleView.setVisibility(View.GONE);
             descriptionView.setText(R.string.recipe_not_found);
             return;
         }
 
+        // Step 4: If recipe is not null, show recipe
         RecipeApplication app = (RecipeApplication) getApplication();
         final Favorites favorites = app.getFavorites();
 //        final SharedPreferenceFavorites favorites = new SharedPreferenceFavorites(this);
@@ -41,6 +45,9 @@ public class RecipeActivity extends AppCompatActivity {
 
         titleView.setText(recipe.title);
         titleView.setSelected(favorite);
+        descriptionView.setText(recipe.description);
+
+        // Step 5: When title is clicked, toggle favorites
         titleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +55,5 @@ public class RecipeActivity extends AppCompatActivity {
                 titleView.setSelected(result);
             }
         });
-        descriptionView.setText(recipe.description);
     }
 }
