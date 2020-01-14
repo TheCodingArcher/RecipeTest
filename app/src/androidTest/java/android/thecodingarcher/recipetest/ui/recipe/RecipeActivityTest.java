@@ -22,6 +22,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 public class RecipeActivityTest {
+    private static final String CARROT_ID = "creamed_carrots";
     @Rule
     public ActivityTestRule<RecipeActivity> activityRule = new ActivityTestRule<>(
             RecipeActivity.class, true, false
@@ -49,14 +50,28 @@ public class RecipeActivityTest {
 
     @Test
     public void clickToFavorite() {
-        Intent intent = new Intent();
-        intent.putExtra(RecipeActivity.KEY_ID, "creamed_carrots");
-        activityRule.launchActivity(intent);
+        launchRecipe(CARROT_ID);
 
         onView(withId(R.id.title))
                 .check(matches(withText("Creamed Carrots")))
                 .check(matches(not(isSelected())))
                 .perform(click())
                 .check(matches(isSelected()));
+    }
+
+    @Test
+    public void alreadyFavorite() {
+        favorites.put(CARROT_ID, true);
+
+        launchRecipe(CARROT_ID);
+
+        onView(withId(R.id.title))
+                .check(matches(isSelected()));
+    }
+
+    private void launchRecipe(String id) {
+        Intent intent = new Intent();
+        intent.putExtra(RecipeActivity.KEY_ID, id);
+        activityRule.launchActivity(intent);
     }
 }
