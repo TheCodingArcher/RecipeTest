@@ -7,6 +7,7 @@ import android.thecodingarcher.recipetest.data.model.RecipeTest;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.io.InputStream;
@@ -45,7 +46,14 @@ public class RecipePresenterTest {
         InputStream stream = RecipePresenterTest.class.getResourceAsStream("/recipes/water.txt");
         Recipe recipe = Recipe.readFromStream(stream);
         Mockito.when(store.getRecipe(Mockito.anyString())).thenReturn(recipe);
+        Mockito.when(favorites.toggle(Mockito.anyString())).thenReturn(true);
 
         presenter.loadRecipe("water");
+        presenter.toggleFavorite();
+
+        ArgumentCaptor<Boolean> captor = ArgumentCaptor.forClass(Boolean.class);
+        Mockito.verify(view, Mockito.times(2)).setFavorite(captor.capture());
+        assertFalse(captor.getAllValues().get(0));
+        assertTrue(captor.getAllValues().get(1));
     }
 }
