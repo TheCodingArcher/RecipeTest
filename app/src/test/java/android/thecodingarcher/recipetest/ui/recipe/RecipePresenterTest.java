@@ -2,10 +2,14 @@ package android.thecodingarcher.recipetest.ui.recipe;
 
 import android.thecodingarcher.recipetest.data.local.Favorites;
 import android.thecodingarcher.recipetest.data.local.RecipeStore;
+import android.thecodingarcher.recipetest.data.model.Recipe;
+import android.thecodingarcher.recipetest.data.model.RecipeTest;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.io.InputStream;
 
 import static org.junit.Assert.*;
 
@@ -34,5 +38,14 @@ public class RecipePresenterTest {
     @Test(expected = IllegalStateException.class)
     public void toggleWithoutLoad() {
         presenter.toggleFavorite();
+    }
+
+    @Test
+    public void loadWaterAndFavorite() {
+        InputStream stream = RecipePresenterTest.class.getResourceAsStream("/recipes/water.txt");
+        Recipe recipe = Recipe.readFromStream(stream);
+        Mockito.when(store.getRecipe(Mockito.anyString())).thenReturn(recipe);
+
+        presenter.loadRecipe("water");
     }
 }
